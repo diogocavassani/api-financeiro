@@ -24,6 +24,14 @@ namespace financeiro.api.Data.Mappings
             builder.Property(p => p.DataVencimentoFatura)
                 .HasColumnName("DataVencimentoFatura")
                 .HasColumnType("DATETIME");
+            builder.Property(p => p.DataVencimentoFatura)
+                .HasColumnName("DataVencimentoFatura")
+                .HasColumnType("DATETIME");
+            builder.Property(p => p.FlExcluido)
+                .IsRequired()
+                .HasDefaultValue(false)
+                .HasColumnName("FlExcluido")
+                .HasColumnType("BIT");
         }
     }
 }
