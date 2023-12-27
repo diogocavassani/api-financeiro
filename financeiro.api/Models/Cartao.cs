@@ -16,16 +16,16 @@ namespace financeiro.api.Models
         /// <param name="nomeCartao"></param>
         /// <param name="vencimentoFatura"></param>
         [SetsRequiredMembers]
-        public Cartao(string nomeCartao, DateTime? vencimentoFatura)
+        public Cartao(string nomeCartao, int diaVencimentoFatura)
         {
             NomeCartao = nomeCartao;
-            DataVencimentoFatura = vencimentoFatura;
+            DiaVencimentoFatura = diaVencimentoFatura;
             FlExcluido = false;
         }
 
         public int IdCartao { get; set; }
         public required string NomeCartao { get; set; }
-        public DateTime? DataVencimentoFatura { get; set; }
+        public int DiaVencimentoFatura { get; set; } = 1;
         public required bool FlExcluido { get; set; }
         public ICollection<ContaPagar> ContasPagar { get; set; }
 

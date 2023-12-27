@@ -27,12 +27,12 @@ namespace financeiro.api.Controllers
             {
                 return BadRequest(new ResultErrorViewModel("Nome do cartão é obrigatório"));
             }
-            var cartao = new Cartao(cartaoViewModel.NomeCartao ?? "", cartaoViewModel.VencimentoFatura);
+            var cartao = new Cartao(cartaoViewModel.NomeCartao ?? "", cartaoViewModel.DiaVencimentoFatura);
             await _cartaoRepositorio.AdicionarAsync(cartao);
             
             return CreatedAtAction(nameof(GetPorIdCartao), 
                 new { idCartao = cartao.IdCartao }, 
-                new CartaoViewModel(cartao.IdCartao, cartao.NomeCartao, cartao.DataVencimentoFatura));
+                new CartaoViewModel(cartao.IdCartao, cartao.NomeCartao, cartao.DiaVencimentoFatura));
         }
 
         [HttpGet("")]
@@ -60,7 +60,7 @@ namespace financeiro.api.Controllers
                 return NotFound(new ResultErrorViewModel("Cartão não encontrado"));
             }
 
-            var cartaoViewModel = new CartaoViewModel(cartao.IdCartao, cartao.NomeCartao, cartao.DataVencimentoFatura);
+            var cartaoViewModel = new CartaoViewModel(cartao.IdCartao, cartao.NomeCartao, cartao.DiaVencimentoFatura);
             return Ok(cartaoViewModel);
         }
 

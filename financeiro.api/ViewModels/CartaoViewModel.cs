@@ -1,4 +1,4 @@
 ﻿namespace financeiro.api.ViewModels
 {
-    public record CartaoViewModel(int idCartao, string NomeCartao, DateTime? VencimentoFatura);
+    public record CartaoViewModel(int idCartao, string NomeCartao, int VencimentoFatura);
 }

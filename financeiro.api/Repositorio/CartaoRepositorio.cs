@@ -23,7 +23,7 @@ namespace financeiro.api.Repositorio
         public async Task<List<CartaoViewModel>> ObterCartoesAsync() => await _db.Cartoes
             .AsNoTracking()
             .Where(p => p.FlExcluido == false)
-            .Select(p => new CartaoViewModel(p.IdCartao, p.NomeCartao, p.DataVencimentoFatura)).ToListAsync();
+            .Select(p => new CartaoViewModel(p.IdCartao, p.NomeCartao, p.DiaVencimentoFatura)).ToListAsync();
         public async Task<Cartao> BuscarPorIdAsync(int idCartao)
         {
             return await _db.Cartoes.Where(c => c.IdCartao == idCartao && c.FlExcluido == false).FirstOrDefaultAsync();
