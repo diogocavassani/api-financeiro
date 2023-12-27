@@ -27,6 +27,7 @@ namespace financeiro.api.Models
         public required string NomeCartao { get; set; }
         public DateTime? DataVencimentoFatura { get; set; }
         public required bool FlExcluido { get; set; }
+        public ICollection<ContaPagar> ContasPagar { get; set; }
 
         public void Excluir()
         {

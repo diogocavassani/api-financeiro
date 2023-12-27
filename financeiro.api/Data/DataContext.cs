@@ -12,6 +12,7 @@ namespace financeiro.api.Data
         {
         }
         public DbSet<Cartao> Cartoes { get; set; }
+        public DbSet<ContaPagar> ContasPagar { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
