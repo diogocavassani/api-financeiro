@@ -27,7 +27,7 @@ namespace financeiro.api.Controllers
         }
 
         [HttpPost("")]
-        [ProducesResponseType<ContasPagarResultViewModel>(StatusCodes.Status201Created)]
+        [ProducesResponseType<ContasPagarResultViewModel>(StatusCodes.Status204NoContent)]
         [ProducesResponseType<ResultErrorViewModel>(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> PersistirContaPagar([FromBody] ContaPagarInputViewModel contaPagarViewModel)
         {
@@ -42,12 +42,11 @@ namespace financeiro.api.Controllers
                 if (cartao == null)
                     return BadRequest(new ResultErrorViewModel("Cartão não encontrado"));
 
-                var contaPagar = new ContaPagar(contaPagarViewModel.Descricao, contaPagarViewModel.ValorTotal, contaPagarViewModel.TotalParcelas, contaPagarViewModel.DataLancamento, contaPagarViewModel.DataVencimento, cartao);
-                await _contaPagarRepositorio.AdicionarAsync(contaPagar);
+                cartao.LancarContaPagar(contaPagarViewModel.Descricao, contaPagarViewModel.ValorTotal, contaPagarViewModel.TotalParcelas, contaPagarViewModel.DataLancamento, contaPagarViewModel.DataVencimento);
 
-                return CreatedAtAction(nameof(GetPorIdContaPagar),
-                    new { idContaPagar = contaPagar.IdContaPagar },
-                    new ContasPagarResultViewModel(contaPagar.Descricao, contaPagar.TotalParcela, contaPagar.Valor, contaPagar.IdCartao, contaPagar.DataVencimento, contaPagar.DataLancamento));
+                await _cartaoRepositorio.SalvarDados();
+
+                return NoContent();
 
             }
             return Ok("");

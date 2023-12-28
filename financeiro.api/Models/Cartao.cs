@@ -6,7 +6,7 @@ namespace financeiro.api.Models
     {
         protected Cartao()
         {
-            
+
         }
 
 
@@ -32,6 +32,18 @@ namespace financeiro.api.Models
         public void Excluir()
         {
             FlExcluido = true;
+        }
+
+        public void LancarContaPagar(string descricao, decimal valorTotal, int totalParcelas, DateTime dataLancamento, DateTime dataVencimento)
+        {
+            var valorParcela = Math.Round(valorTotal / totalParcelas, 2);
+
+            var contaPagar = new ContaPagar(descricao, valorParcela, totalParcelas, dataLancamento, new DateTime(dataVencimento.Year, dataVencimento.Month, DiaVencimentoFatura));
+            for (int parcela = 0; parcela < totalParcelas; parcela++)
+            {
+                contaPagar.DataVencimento = contaPagar.DataVencimento.AddMonths(parcela);
+                ContasPagar.Add(contaPagar);
+            }
         }
     }
 }
