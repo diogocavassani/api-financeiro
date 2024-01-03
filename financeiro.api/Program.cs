@@ -35,4 +35,5 @@ void ConfigureServices(WebApplicationBuilder builder)
         options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
     builder.Services.AddScoped<CartaoRepositorio>();
+    builder.Services.AddScoped<ContaPagarRepositorio>();
 }

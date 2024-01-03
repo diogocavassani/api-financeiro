@@ -20,10 +20,15 @@ namespace financeiro.api.Controllers
         }
 
         [HttpGet("")]
-        public async Task<IActionResult> BuscarContasPagar()
+        [ProducesResponseType<ContasPagarResultViewModel>(StatusCodes.Status200OK)]
+        [ProducesResponseType<ResultErrorViewModel>(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> BuscarContasPagar([FromQuery] int mes, [FromQuery] int ano, [FromQuery] int? idCartao = 0)
         {
-
-            return Ok("");
+            if (mes == 0 || ano == 0)
+                return BadRequest(new ResultErrorViewModel("Mês e ano precisam estar preenchidos"));
+            
+            var retorno = await _contaPagarRepositorio.BuscarContasPagar(mes, ano, idCartao);
+            return Ok(retorno);
         }
 
         [HttpPost("")]
@@ -49,15 +54,22 @@ namespace financeiro.api.Controllers
                 return NoContent();
 
             }
-            return Ok("");
-        }
 
-        [HttpGet("{idContaPagar}")]
-        [ProducesResponseType<ResultErrorViewModel>(StatusCodes.Status404NotFound)]
-        [ProducesResponseType<CartaoViewModel>(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetPorIdContaPagar([FromRoute] int idCartao)
-        {
-            return Ok();
+            if (contaPagarViewModel.TotalParcelas > 1)
+            {
+                var valorParcela = Math.Round(contaPagarViewModel.ValorTotal / contaPagarViewModel.TotalParcelas, 2);
+
+                for (int parcela = 0; parcela < contaPagarViewModel.TotalParcelas; parcela++)
+                {
+                    var contaPagar = new ContaPagar(contaPagarViewModel.Descricao, valorParcela, parcela + 1, contaPagarViewModel.TotalParcelas, contaPagarViewModel.DataLancamento, contaPagarViewModel.DataVencimento.AddMonths(parcela + 1));
+                    await _contaPagarRepositorio.AdicionarAsync(contaPagar);
+                }
+                return NoContent();
+            }
+
+            var contaPagarUnica = new ContaPagar(contaPagarViewModel.Descricao, 1, 1, contaPagarViewModel.TotalParcelas, contaPagarViewModel.DataLancamento, contaPagarViewModel.DataVencimento);
+            await _contaPagarRepositorio.AdicionarAsync(contaPagarUnica);
+            return NoContent();
         }
     }
 }

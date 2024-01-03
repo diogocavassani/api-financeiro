@@ -7,12 +7,14 @@ namespace financeiro.api.Models
         {
                 
         }
-        public ContaPagar(string descricao, decimal valorTotal, int totalParcelas, DateTime dataLancamento, DateTime dataVencimento)
+        public ContaPagar(string descricao, decimal valorTotal, int totalParcelas, int parcela, DateTime dataLancamento, DateTime dataVencimento)
         {
             Descricao = descricao;
             Valor = valorTotal;
             DataLancamento = dataLancamento;
             DataVencimento = dataVencimento;
+            TotalParcela = totalParcelas;
+            ParcelaAtual = parcela;
         }
 
         public int IdContaPagar { get; set; }

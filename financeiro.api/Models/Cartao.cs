@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.Collections.ObjectModel;
+using System.Diagnostics.CodeAnalysis;
 
 namespace financeiro.api.Models
 {
@@ -6,7 +7,7 @@ namespace financeiro.api.Models
     {
         protected Cartao()
         {
-
+            ContasPagar = new Collection<ContaPagar>();
         }
 
 
@@ -18,6 +19,8 @@ namespace financeiro.api.Models
         [SetsRequiredMembers]
         public Cartao(string nomeCartao, int diaVencimentoFatura)
         {
+            ContasPagar = new Collection<ContaPagar>();
+
             NomeCartao = nomeCartao;
             DiaVencimentoFatura = diaVencimentoFatura;
             FlExcluido = false;
@@ -37,11 +40,10 @@ namespace financeiro.api.Models
         public void LancarContaPagar(string descricao, decimal valorTotal, int totalParcelas, DateTime dataLancamento, DateTime dataVencimento)
         {
             var valorParcela = Math.Round(valorTotal / totalParcelas, 2);
-
-            var contaPagar = new ContaPagar(descricao, valorParcela, totalParcelas, dataLancamento, new DateTime(dataVencimento.Year, dataVencimento.Month, DiaVencimentoFatura));
             for (int parcela = 0; parcela < totalParcelas; parcela++)
             {
-                contaPagar.DataVencimento = contaPagar.DataVencimento.AddMonths(parcela);
+                var contaPagar = new ContaPagar(descricao, valorParcela, totalParcelas, parcela + 1, dataLancamento, new DateTime(dataVencimento.Year, dataVencimento.AddMonths(parcela + 1).Month, DiaVencimentoFatura));
+
                 ContasPagar.Add(contaPagar);
             }
         }
