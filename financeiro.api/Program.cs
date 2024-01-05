@@ -1,8 +1,7 @@
-using financeiro.api.Data;
-using financeiro.api.Repositorio;
+using financeiro.aplicacao.App;
+using financeiro.infra.Contexto;
+using financeiro.infra.Repositorio;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,4 +35,6 @@ void ConfigureServices(WebApplicationBuilder builder)
             options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
     builder.Services.AddScoped<CartaoRepositorio>();
     builder.Services.AddScoped<ContaPagarRepositorio>();
+    builder.Services.AddScoped<CartaoApp>();
+    builder.Services.AddScoped<ContaPagarApp>();
 }

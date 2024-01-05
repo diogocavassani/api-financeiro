@@ -1,9 +1,9 @@
-﻿using financeiro.api.Data;
-using financeiro.api.Models;
-using financeiro.api.ViewModels;
+﻿using financeiro.dominio.Entidade;
+using financeiro.dominio.ViewModel;
+using financeiro.infra.Contexto;
 using Microsoft.EntityFrameworkCore;
 
-namespace financeiro.api.Repositorio
+namespace financeiro.infra.Repositorio
 {
     public class ContaPagarRepositorio
     {
@@ -20,7 +20,7 @@ namespace financeiro.api.Repositorio
             await _db.SaveChangesAsync();
         }
 
-        public Task<List<ContasPagarResultViewModel>> BuscarContasPagar(int mes, int ano, int? cartao)
+        public Task<List<ContasPagarResultViewModel>> BuscarContasPagarAsync(int mes, int ano, int? cartao)
         {
             var query = _db.ContasPagar.AsNoTracking()
                 .Where(p => p.DataVencimento.Month == mes && p.DataVencimento.Year == ano)

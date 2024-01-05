@@ -1,8 +1,6 @@
 ﻿using financeiro.api.Controllers.Base;
-using financeiro.api.Data;
-using financeiro.api.Models;
-using financeiro.api.Repositorio;
-using financeiro.api.ViewModels;
+using financeiro.aplicacao.App;
+using financeiro.dominio.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 
 namespace financeiro.api.Controllers
@@ -11,77 +9,68 @@ namespace financeiro.api.Controllers
     [Route("api/v1/[controller]")]
     public class CartaoController : BaseController
     {
-        private readonly CartaoRepositorio _cartaoRepositorio;
+        private readonly CartaoApp _cartaoApp;
 
-        public CartaoController(CartaoRepositorio cartaoRepositorio)
+        public CartaoController(CartaoApp cartaoApp)
         {
-            _cartaoRepositorio = cartaoRepositorio;
+            _cartaoApp = cartaoApp;
         }
 
         [HttpPost("")]
-        [ProducesResponseType<CartaoViewModel>(StatusCodes.Status201Created)]
+        [ProducesResponseType<CartaoResultViewModel>(StatusCodes.Status201Created)]
         [ProducesResponseType<ResultErrorViewModel>(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> PersiteCartao([FromBody] CartaoInputViewModel cartaoViewModel)
         {
+            //TODO: Passar validação para camada de APP.
             if (string.IsNullOrEmpty(cartaoViewModel.NomeCartao))
             {
                 return BadRequest(new ResultErrorViewModel("Nome do cartão é obrigatório"));
             }
-            var cartao = new Cartao(cartaoViewModel.NomeCartao ?? "", cartaoViewModel.DiaVencimentoFatura);
-            await _cartaoRepositorio.AdicionarAsync(cartao);
-            
-            return CreatedAtAction(nameof(GetPorIdCartao), 
-                new { idCartao = cartao.IdCartao }, 
-                new CartaoViewModel(cartao.IdCartao, cartao.NomeCartao, cartao.DiaVencimentoFatura));
+            var cartaoResult = await _cartaoApp.PersisteCartaoAsync(cartaoViewModel);
+
+
+            return CreatedAtAction(nameof(GetPorIdCartao),
+                new { cartaoResult.idCartao },
+                cartaoResult);
         }
 
         [HttpGet("")]
-        [ProducesResponseType<List<CartaoViewModel>>(StatusCodes.Status200OK)]
+        [ProducesResponseType<List<CartaoResultViewModel>>(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetCartao()
         {
-           var listCartoes = await _cartaoRepositorio.ObterCartoesAsync();
+            var listCartoes = await _cartaoApp.ObterCartoesAsync();
 
             return Ok(listCartoes);
         }
 
         [HttpGet("{idCartao}")]
         [ProducesResponseType<ResultErrorViewModel>(StatusCodes.Status404NotFound)]
-        [ProducesResponseType<CartaoViewModel>(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetPorIdCartao([FromRoute]int idCartao)
+        [ProducesResponseType<CartaoResultViewModel>(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetPorIdCartao([FromRoute] int idCartao)
         {
             if (idCartao == 0)
             {
                 return NotFound(new ResultErrorViewModel("Cartão não encontrado"));
             }
-            var cartao = await _cartaoRepositorio.BuscarPorIdAsync(idCartao);
+            var cartaoResult = await _cartaoApp.BuscarPorIdAsync(idCartao);
 
-            if (cartao == null)
+            if (cartaoResult == null)
             {
                 return NotFound(new ResultErrorViewModel("Cartão não encontrado"));
             }
 
-            var cartaoViewModel = new CartaoViewModel(cartao.IdCartao, cartao.NomeCartao, cartao.DiaVencimentoFatura);
-            return Ok(cartaoViewModel);
+            return Ok(cartaoResult);
         }
 
         [HttpDelete("{idCartao}")]
         [ProducesResponseType<ResultErrorViewModel>(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<IActionResult> DeletarCartao([FromRoute]int idCartao)
-        {
-            if(idCartao == 0)
-            {
+        public async Task<IActionResult> DeletarCartao([FromRoute] int idCartao)
+        {            
+            var flSucesso = await _cartaoApp.ExcluirCartaoAsync(idCartao);
+            if (!flSucesso)
                 return BadRequest(new ResultErrorViewModel("Cartão não encontrado"));
-            }
-            var cartao = await _cartaoRepositorio.BuscarPorIdAsync(idCartao);
-
-            if(cartao == null)
-            {
-                return BadRequest(new ResultErrorViewModel("Cartão não encontrado"));
-            }
-
-            cartao.Excluir();
-            await _cartaoRepositorio.SalvarDados();
+            
             return NoContent();
         }
     }

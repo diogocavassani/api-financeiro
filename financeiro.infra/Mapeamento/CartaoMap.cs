@@ -1,8 +1,8 @@
-﻿using financeiro.api.Models;
+﻿using financeiro.dominio.Entidade;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace financeiro.api.Data.Mappings
+namespace financeiro.infra.Mapeamento
 {
     public class CartaoMap : IEntityTypeConfiguration<Cartao>
     {
@@ -21,13 +21,13 @@ namespace financeiro.api.Data.Mappings
                 .HasColumnName("NomeCartao")
                 .HasColumnType("Varchar")
                 .HasMaxLength(50);
-            
+
             builder.Property(p => p.DiaVencimentoFatura)
                 .HasColumnName("DiaVencimentoFatura")
                 .HasDefaultValue(1)
                 .HasColumnType("INT");
 
-            
+
             builder.Property(p => p.FlExcluido)
                 .IsRequired()
                 .HasDefaultValue(false)

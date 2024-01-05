@@ -1,8 +1,8 @@
-﻿using financeiro.api.Models;
+﻿using financeiro.dominio.Entidade;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace financeiro.api.Data.Mappings
+namespace financeiro.infra.Mapeamento
 {
     public class ContaPagarMap : IEntityTypeConfiguration<ContaPagar>
     {
@@ -46,7 +46,7 @@ namespace financeiro.api.Data.Mappings
             builder.Property(p => p.DataVencimento)
                 .HasColumnName("DataVencimento")
                 .HasColumnType("DATETIME");
-            
+
             builder.Property(p => p.FlCancelado)
                 .HasColumnName("FlCancelado")
                 .IsRequired()

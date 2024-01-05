@@ -1,5 +1,4 @@
-﻿
-namespace financeiro.api.Models
+﻿namespace financeiro.dominio.Entidade
 {
     public class ContaPagar
     {

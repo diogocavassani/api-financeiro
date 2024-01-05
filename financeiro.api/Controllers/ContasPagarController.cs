@@ -1,6 +1,5 @@
-﻿using financeiro.api.Models;
-using financeiro.api.Repositorio;
-using financeiro.api.ViewModels;
+﻿using financeiro.aplicacao.App;
+using financeiro.dominio.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 
 namespace financeiro.api.Controllers
@@ -9,14 +8,11 @@ namespace financeiro.api.Controllers
     [Route("api/v1/[controller]")]
     public class ContasPagarController : ControllerBase
     {
-        private readonly CartaoRepositorio _cartaoRepositorio;
-        private readonly ContaPagarRepositorio _contaPagarRepositorio;
+        private readonly ContaPagarApp _contaPagarApp;
 
-        public ContasPagarController(CartaoRepositorio cartaoRepositorio,
-            ContaPagarRepositorio contaPagarRepositorio)
+        public ContasPagarController(ContaPagarApp cartaoApp)
         {
-            _cartaoRepositorio = cartaoRepositorio;
-            _contaPagarRepositorio = contaPagarRepositorio;
+            _contaPagarApp = cartaoApp;
         }
 
         [HttpGet("")]
@@ -26,13 +22,13 @@ namespace financeiro.api.Controllers
         {
             if (mes == 0 || ano == 0)
                 return BadRequest(new ResultErrorViewModel("Mês e ano precisam estar preenchidos"));
-            
-            var retorno = await _contaPagarRepositorio.BuscarContasPagar(mes, ano, idCartao);
+
+            var retorno = await _contaPagarApp.BuscarContasPagarAsync(mes, ano, idCartao);
             return Ok(retorno);
         }
 
         [HttpPost("")]
-        [ProducesResponseType<ContasPagarResultViewModel>(StatusCodes.Status204NoContent)]
+        [ProducesResponseType<ContasPagarResultViewModel>(StatusCodes.Status201Created)]
         [ProducesResponseType<ResultErrorViewModel>(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> PersistirContaPagar([FromBody] ContaPagarInputViewModel contaPagarViewModel)
         {
@@ -41,34 +37,7 @@ namespace financeiro.api.Controllers
                 return BadRequest(new ResultErrorViewModel("Valor precisa ser maior que 0"));
             }
 
-            if (contaPagarViewModel.IdCartao >= 0)
-            {
-                var cartao = await _cartaoRepositorio.BuscarPorIdAsync(contaPagarViewModel.IdCartao.Value);
-                if (cartao == null)
-                    return BadRequest(new ResultErrorViewModel("Cartão não encontrado"));
-
-                cartao.LancarContaPagar(contaPagarViewModel.Descricao, contaPagarViewModel.ValorTotal, contaPagarViewModel.TotalParcelas, contaPagarViewModel.DataLancamento, contaPagarViewModel.DataVencimento);
-
-                await _cartaoRepositorio.SalvarDados();
-
-                return NoContent();
-
-            }
-
-            if (contaPagarViewModel.TotalParcelas > 1)
-            {
-                var valorParcela = Math.Round(contaPagarViewModel.ValorTotal / contaPagarViewModel.TotalParcelas, 2);
-
-                for (int parcela = 0; parcela < contaPagarViewModel.TotalParcelas; parcela++)
-                {
-                    var contaPagar = new ContaPagar(contaPagarViewModel.Descricao, valorParcela, parcela + 1, contaPagarViewModel.TotalParcelas, contaPagarViewModel.DataLancamento, contaPagarViewModel.DataVencimento.AddMonths(parcela + 1));
-                    await _contaPagarRepositorio.AdicionarAsync(contaPagar);
-                }
-                return NoContent();
-            }
-
-            var contaPagarUnica = new ContaPagar(contaPagarViewModel.Descricao, 1, 1, contaPagarViewModel.TotalParcelas, contaPagarViewModel.DataLancamento, contaPagarViewModel.DataVencimento);
-            await _contaPagarRepositorio.AdicionarAsync(contaPagarUnica);
+            var result = _contaPagarApp.PersisteContaPagarAsync(contaPagarViewModel);
             return NoContent();
         }
     }
