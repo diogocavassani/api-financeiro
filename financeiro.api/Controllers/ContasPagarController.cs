@@ -1,4 +1,5 @@
-﻿using financeiro.dominio.ViewModel;
+﻿using financeiro.aplicacao.App;
+using financeiro.dominio.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 
 namespace financeiro.api.Controllers
@@ -8,13 +9,13 @@ namespace financeiro.api.Controllers
     public class ContasPagarController : ControllerBase
     {
         private readonly CartaoRepositorio _cartaoRepositorio;
-        private readonly ContaPagarRepositorio _contaPagarRepositorio;
+        private readonly ContaPagarApp _contaPagarApp;
 
-        public ContasPagarController(CartaoRepositorio cartaoRepositorio,
+        public ContasPagarController(ContaPagarApp cartaoApp,
             ContaPagarRepositorio contaPagarRepositorio)
         {
             _cartaoRepositorio = cartaoRepositorio;
-            _contaPagarRepositorio = contaPagarRepositorio;
+            _contaPagarApp = cartaoApp;
         }
 
         [HttpGet("")]
@@ -25,7 +26,7 @@ namespace financeiro.api.Controllers
             if (mes == 0 || ano == 0)
                 return BadRequest(new ResultErrorViewModel("Mês e ano precisam estar preenchidos"));
 
-            var retorno = await _contaPagarRepositorio.BuscarContasPagar(mes, ano, idCartao);
+            var retorno = await _contaPagarApp.BuscarContasPagarAsync(mes, ano, idCartao);
             return Ok(retorno);
         }
 

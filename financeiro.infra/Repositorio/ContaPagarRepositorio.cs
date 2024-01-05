@@ -20,7 +20,7 @@ namespace financeiro.infra.Repositorio
             await _db.SaveChangesAsync();
         }
 
-        public Task<List<ContasPagarResultViewModel>> BuscarContasPagar(int mes, int ano, int? cartao)
+        public Task<List<ContasPagarResultViewModel>> BuscarContasPagarAsync(int mes, int ano, int? cartao)
         {
             var query = _db.ContasPagar.AsNoTracking()
                 .Where(p => p.DataVencimento.Month == mes && p.DataVencimento.Year == ano)
