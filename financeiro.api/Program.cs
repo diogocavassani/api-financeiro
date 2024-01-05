@@ -1,6 +1,6 @@
-using financeiro.api.Data;
-using financeiro.api.Repositorio;
 using financeiro.aplicacao.App;
+using financeiro.infra.Contexto;
+using financeiro.infra.Repositorio;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

@@ -1,6 +1,5 @@
 ﻿using financeiro.dominio.Entidade;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection;
 
 namespace financeiro.infra.Contexto
 {
@@ -15,7 +14,7 @@ namespace financeiro.infra.Contexto
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(DataContext).Assembly);
         }
 
 
