@@ -5,7 +5,7 @@ namespace financeiro.api.Models
     {
         protected ContaPagar()
         {
-                
+
         }
         public ContaPagar(string descricao, decimal valorTotal, int totalParcelas, int parcela, DateTime dataLancamento, DateTime dataVencimento)
         {
@@ -17,15 +17,15 @@ namespace financeiro.api.Models
             ParcelaAtual = parcela;
         }
 
-        public int IdContaPagar { get; set; }
-        public int ParcelaAtual { get; set; } = 1;
-        public int TotalParcela { get; set; } = 1;
-        public string Descricao { get; set; }
-        public decimal Valor { get; set; }
-        public DateTime DataLancamento { get; set; }
-        public DateTime DataVencimento { get; set; }
-        public bool FlCancelado { get; set; }
-        public int? IdCartao { get; set; }
+        public int IdContaPagar { get; private set; }
+        public int ParcelaAtual { get; private set; } = 1;
+        public int TotalParcela { get; private set; } = 1;
+        public string Descricao { get; private set; }
+        public decimal Valor { get; private set; }
+        public DateTime DataLancamento { get; private set; }
+        public DateTime DataVencimento { get; private set; }
+        public bool FlCancelado { get; private set; }
+        public int? IdCartao { get; private set; }
         public virtual Cartao Cartao { get; set; }
     }
 }

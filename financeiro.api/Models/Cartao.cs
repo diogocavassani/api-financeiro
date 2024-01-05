@@ -16,7 +16,6 @@ namespace financeiro.api.Models
         /// </summary>
         /// <param name="nomeCartao"></param>
         /// <param name="vencimentoFatura"></param>
-        [SetsRequiredMembers]
         public Cartao(string nomeCartao, int diaVencimentoFatura)
         {
             ContasPagar = new Collection<ContaPagar>();
@@ -26,11 +25,11 @@ namespace financeiro.api.Models
             FlExcluido = false;
         }
 
-        public int IdCartao { get; set; }
-        public required string NomeCartao { get; set; }
-        public int DiaVencimentoFatura { get; set; } = 1;
-        public required bool FlExcluido { get; set; }
-        public ICollection<ContaPagar> ContasPagar { get; set; }
+        public int IdCartao { get; private set; }
+        public  string NomeCartao { get; private set; }
+        public int DiaVencimentoFatura { get; private set; } = 1;
+        public  bool FlExcluido { get; private set; }
+        public virtual ICollection<ContaPagar> ContasPagar { get; set; }
 
         public void Excluir()
         {
