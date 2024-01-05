@@ -1,6 +1,5 @@
 ﻿using financeiro.api.Models;
-using financeiro.api.Repositorio;
-using financeiro.api.ViewModels;
+using financeiro.dominio.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 
 namespace financeiro.api.Controllers
@@ -26,7 +25,7 @@ namespace financeiro.api.Controllers
         {
             if (mes == 0 || ano == 0)
                 return BadRequest(new ResultErrorViewModel("Mês e ano precisam estar preenchidos"));
-            
+
             var retorno = await _contaPagarRepositorio.BuscarContasPagar(mes, ano, idCartao);
             return Ok(retorno);
         }

@@ -24,4 +24,8 @@
     <Folder Include="Services\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\financeiro.aplicacao\financeiro.aplicacao.csproj" />
+  </ItemGroup>
+
 </Project>

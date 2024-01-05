@@ -1,9 +1,8 @@
-﻿using financeiro.api.Models;
+﻿using financeiro.dominio.Entidade;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using System.Reflection;
 
-namespace financeiro.api.Data
+namespace financeiro.infra.Contexto
 {
     public class DataContext : DbContext
     {
