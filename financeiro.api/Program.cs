@@ -1,6 +1,7 @@
 using financeiro.aplicacao.App;
 using financeiro.infra.Contexto;
 using financeiro.infra.Repositorio;
+using financeiro.infra.Transacao;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -37,4 +38,5 @@ void ConfigureServices(WebApplicationBuilder builder)
     builder.Services.AddScoped<ContaPagarRepositorio>();
     builder.Services.AddScoped<CartaoApp>();
     builder.Services.AddScoped<ContaPagarApp>();
+    builder.Services.AddScoped<UnitOfWork>();
 }
