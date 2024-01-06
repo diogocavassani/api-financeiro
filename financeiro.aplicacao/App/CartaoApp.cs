@@ -35,7 +35,8 @@ namespace financeiro.aplicacao.App
             }
 
             cartao.Excluir();
-            await _cartaoRepositorio.SalvarDados();
+
+            await SalvarDados();
             return true;
         }
 
@@ -48,6 +49,7 @@ namespace financeiro.aplicacao.App
         {
             var cartao = new Cartao(cartaoViewModel.NomeCartao ?? "", cartaoViewModel.DiaVencimentoFatura);
             await _cartaoRepositorio.AdicionarAsync(cartao);
+            await SalvarDados();
             return new CartaoResultViewModel(cartao.IdCartao, cartao.NomeCartao, cartao.DiaVencimentoFatura);
         }
     }

@@ -17,7 +17,6 @@ namespace financeiro.infra.Repositorio
         public async Task AdicionarAsync(ContaPagar contaPagar)
         {
             await _db.AddAsync(contaPagar);
-            await _db.SaveChangesAsync();
         }
 
         public Task<List<ContasPagarResultViewModel>> BuscarContasPagarAsync(int mes, int ano, int? cartao)

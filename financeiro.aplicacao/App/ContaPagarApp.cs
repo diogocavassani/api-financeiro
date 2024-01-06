@@ -32,7 +32,7 @@ namespace financeiro.aplicacao.App
 
                 cartao.LancarContaPagar(contaPagarViewModel.Descricao, contaPagarViewModel.ValorTotal, contaPagarViewModel.TotalParcelas, contaPagarViewModel.DataLancamento, contaPagarViewModel.DataVencimento);
 
-                await _cartaoRepositorio.SalvarDados();
+                await SalvarDados();
 
                 return null;
 
@@ -46,12 +46,14 @@ namespace financeiro.aplicacao.App
                 {
                     var contaPagar = new ContaPagar(contaPagarViewModel.Descricao, valorParcela, parcela + 1, contaPagarViewModel.TotalParcelas, contaPagarViewModel.DataLancamento, contaPagarViewModel.DataVencimento.AddMonths(parcela + 1));
                     await _contaPagarRepositorio.AdicionarAsync(contaPagar);
+                    await SalvarDados();
                 }
                 return null;
             }
 
             var contaPagarUnica = new ContaPagar(contaPagarViewModel.Descricao, 1, 1, contaPagarViewModel.TotalParcelas, contaPagarViewModel.DataLancamento, contaPagarViewModel.DataVencimento);
             await _contaPagarRepositorio.AdicionarAsync(contaPagarUnica);
+            await SalvarDados();
             return null;
         }
     }
