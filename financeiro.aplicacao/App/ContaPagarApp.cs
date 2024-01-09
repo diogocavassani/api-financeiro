@@ -1,12 +1,12 @@
-﻿using financeiro.dominio.Entidades;
+﻿using financeiro.dominio.App;
+using financeiro.dominio.Entidades;
 using financeiro.dominio.Repositorios;
 using financeiro.dominio.ViewModels;
-using financeiro.infra.Repositorio;
 using financeiro.infra.Transacao;
 
 namespace financeiro.aplicacao.App
 {
-    public class ContaPagarApp : AppBase
+    public class ContaPagarApp : AppBase, IContaPagarApp
     {
         private readonly IContaPagarRepositorio _contaPagarRepositorio;
         private readonly ICartaoRepositorio _cartaoRepositorio;

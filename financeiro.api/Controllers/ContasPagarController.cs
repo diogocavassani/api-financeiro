@@ -1,4 +1,4 @@
-﻿using financeiro.aplicacao.App;
+﻿using financeiro.dominio.App;
 using financeiro.dominio.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,9 +8,9 @@ namespace financeiro.api.Controllers
     [Route("api/v1/[controller]")]
     public class ContasPagarController : ControllerBase
     {
-        private readonly ContaPagarApp _contaPagarApp;
+        private readonly IContaPagarApp _contaPagarApp;
 
-        public ContasPagarController(ContaPagarApp cartaoApp)
+        public ContasPagarController(IContaPagarApp cartaoApp)
         {
             _contaPagarApp = cartaoApp;
         }

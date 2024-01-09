@@ -1,4 +1,5 @@
 using financeiro.aplicacao.App;
+using financeiro.dominio.App;
 using financeiro.dominio.Repositorios;
 using financeiro.infra.Contexto;
 using financeiro.infra.Repositorio;
@@ -37,7 +38,7 @@ void ConfigureServices(WebApplicationBuilder builder)
             options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
     builder.Services.AddScoped<ICartaoRepositorio, CartaoRepositorio>();
     builder.Services.AddScoped<IContaPagarRepositorio, ContaPagarRepositorio>();
-    builder.Services.AddScoped<CartaoApp>();
-    builder.Services.AddScoped<ContaPagarApp>();
+    builder.Services.AddScoped<ICartaoApp, CartaoApp>();
+    builder.Services.AddScoped<IContaPagarApp, ContaPagarApp>();
     builder.Services.AddScoped<UnitOfWork>();
 }

@@ -1,5 +1,6 @@
 ﻿using financeiro.api.Controllers.Base;
 using financeiro.aplicacao.App;
+using financeiro.dominio.App;
 using financeiro.dominio.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,9 +10,9 @@ namespace financeiro.api.Controllers
     [Route("api/v1/[controller]")]
     public class CartaoController : BaseController
     {
-        private readonly CartaoApp _cartaoApp;
+        private readonly ICartaoApp _cartaoApp;
 
-        public CartaoController(CartaoApp cartaoApp)
+        public CartaoController(ICartaoApp cartaoApp)
         {
             _cartaoApp = cartaoApp;
         }
@@ -66,11 +67,11 @@ namespace financeiro.api.Controllers
         [ProducesResponseType<ResultErrorViewModel>(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> DeletarCartao([FromRoute] int idCartao)
-        {            
+        {
             var flSucesso = await _cartaoApp.ExcluirCartaoAsync(idCartao);
             if (!flSucesso)
                 return BadRequest(new ResultErrorViewModel("Cartão não encontrado"));
-            
+
             return NoContent();
         }
     }
