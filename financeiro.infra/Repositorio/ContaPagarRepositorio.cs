@@ -1,11 +1,12 @@
 ﻿using financeiro.dominio.Entidades;
+using financeiro.dominio.Repositorios;
 using financeiro.dominio.ViewModels;
 using financeiro.infra.Contexto;
 using Microsoft.EntityFrameworkCore;
 
 namespace financeiro.infra.Repositorio
 {
-    public class ContaPagarRepositorio
+    public class ContaPagarRepositorio : IContaPagarRepositorio
     {
         private readonly DataContext _db;
 

@@ -1,15 +1,15 @@
 ﻿using financeiro.dominio.Entidades;
+using financeiro.dominio.Repositorios;
 using financeiro.dominio.ViewModels;
-using financeiro.infra.Repositorio;
 using financeiro.infra.Transacao;
 
 namespace financeiro.aplicacao.App
 {
     public class CartaoApp : AppBase
     {
-        private readonly CartaoRepositorio _cartaoRepositorio;
+        private readonly ICartaoRepositorio _cartaoRepositorio;
 
-        public CartaoApp(UnitOfWork unitOfWork, CartaoRepositorio cartaoRepositorio) : base(unitOfWork)
+        public CartaoApp(UnitOfWork unitOfWork, ICartaoRepositorio cartaoRepositorio) : base(unitOfWork)
         {
             _cartaoRepositorio = cartaoRepositorio;
         }

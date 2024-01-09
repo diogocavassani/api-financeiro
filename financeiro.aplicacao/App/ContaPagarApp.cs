@@ -1,4 +1,5 @@
 ﻿using financeiro.dominio.Entidades;
+using financeiro.dominio.Repositorios;
 using financeiro.dominio.ViewModels;
 using financeiro.infra.Repositorio;
 using financeiro.infra.Transacao;
@@ -7,10 +8,10 @@ namespace financeiro.aplicacao.App
 {
     public class ContaPagarApp : AppBase
     {
-        private readonly ContaPagarRepositorio _contaPagarRepositorio;
-        private readonly CartaoRepositorio _cartaoRepositorio;
+        private readonly IContaPagarRepositorio _contaPagarRepositorio;
+        private readonly ICartaoRepositorio _cartaoRepositorio;
 
-        public ContaPagarApp(UnitOfWork unitOfWork, ContaPagarRepositorio contaPagarRepositorio, CartaoRepositorio cartaoRepositorio) : base(unitOfWork)
+        public ContaPagarApp(UnitOfWork unitOfWork, IContaPagarRepositorio contaPagarRepositorio, ICartaoRepositorio cartaoRepositorio) : base(unitOfWork)
         {
             _contaPagarRepositorio = contaPagarRepositorio;
             _cartaoRepositorio = cartaoRepositorio;
