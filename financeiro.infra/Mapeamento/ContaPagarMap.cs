@@ -1,4 +1,4 @@
-﻿using financeiro.dominio.Entidade;
+﻿using financeiro.dominio.Entidades;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

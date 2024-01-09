@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace financeiro.dominio.Entidade;
+namespace financeiro.dominio.Entidades;
 
 public class Cartao
 {

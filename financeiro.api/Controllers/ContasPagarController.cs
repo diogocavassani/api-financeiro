@@ -1,5 +1,5 @@
 ﻿using financeiro.aplicacao.App;
-using financeiro.dominio.ViewModel;
+using financeiro.dominio.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace financeiro.api.Controllers

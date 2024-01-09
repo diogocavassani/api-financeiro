@@ -1,5 +1,5 @@
-﻿using financeiro.dominio.Entidade;
-using financeiro.dominio.ViewModel;
+﻿using financeiro.dominio.Entidades;
+using financeiro.dominio.ViewModels;
 using financeiro.infra.Repositorio;
 using financeiro.infra.Transacao;
 

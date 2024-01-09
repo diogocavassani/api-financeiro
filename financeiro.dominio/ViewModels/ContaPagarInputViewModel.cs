@@ -1,4 +1,4 @@
-﻿namespace financeiro.dominio.ViewModel
+﻿namespace financeiro.dominio.ViewModels
 {
     public class ContaPagarInputViewModel
     {
