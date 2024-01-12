@@ -7,6 +7,6 @@ namespace financeiro.dominio.App
         Task<CartaoResultViewModel?> BuscarPorIdAsync(int idCartao);
         Task<bool> ExcluirCartaoAsync(int idCartao);
         Task<List<CartaoResultViewModel>> ObterCartoesAsync();
-        Task<CartaoResultViewModel> PersisteCartaoAsync(CartaoInputViewModel cartaoViewModel)
+        Task<CartaoResultViewModel> PersisteCartaoAsync(CartaoInputViewModel cartaoViewModel);
     }
 }

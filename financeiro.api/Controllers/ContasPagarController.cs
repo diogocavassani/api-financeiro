@@ -28,7 +28,7 @@ namespace financeiro.api.Controllers
         }
 
         [HttpPost("")]
-        [ProducesResponseType<ContasPagarResultViewModel>(StatusCodes.Status201Created)]
+        [ProducesResponseType<ContasPagarResultViewModel>(StatusCodes.Status200OK)]
         [ProducesResponseType<ResultErrorViewModel>(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> PersistirContaPagar([FromBody] ContaPagarInputViewModel contaPagarViewModel)
         {
@@ -38,7 +38,8 @@ namespace financeiro.api.Controllers
             }
 
             var result = _contaPagarApp.PersisteContaPagarAsync(contaPagarViewModel);
-            return NoContent();
+            if (result == null) return BadRequest(new ResultErrorViewModel("Não foi possivel criar a conta."));
+            return Ok(result);
         }
     }
 }
