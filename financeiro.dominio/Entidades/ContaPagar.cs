@@ -16,6 +16,17 @@
             ParcelaAtual = parcela;
         }
 
+        public ContaPagar(string descricao, decimal valorParcela, int totalParcelas, int parcelaAtual, DateTime dataLancamento, int mes, int ano, Cartao cartao)
+        {
+            Descricao = descricao;
+            Valor = valorParcela;
+            TotalParcela = totalParcelas;
+            ParcelaAtual = parcelaAtual;
+            DataLancamento = dataLancamento;
+            DataVencimento = new DateTime(ano, mes, cartao.DiaVencimentoFatura);
+            cartao = cartao;
+        }
+
         public int IdContaPagar { get; private set; }
         public int ParcelaAtual { get; private set; } = 1;
         public int TotalParcela { get; private set; } = 1;

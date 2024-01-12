@@ -31,7 +31,7 @@ namespace financeiro.aplicacao.App
                 var cartao = await _cartaoRepositorio.BuscarPorIdAsync(contaPagarViewModel.IdCartao.Value);
                 if (cartao == null)
                     return null;
-                
+
                 for (var parcelaAtual = 1; parcelaAtual <= contaPagarViewModel.TotalParcelas; parcelaAtual++)
                 {
                     var contaPagar = new ContaPagar(
@@ -57,7 +57,7 @@ namespace financeiro.aplicacao.App
                 }
             }
 
-            
+
             if (await SalvarDados())
             {
                 return retorno;
