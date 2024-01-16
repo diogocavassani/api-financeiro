@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\financeiro.dominioNucleoCompartilhado\financeiro.dominioNucleoCompartilhado.csproj" />
     <ProjectReference Include="..\financeiro.dominio\financeiro.dominio.csproj" />
     <ProjectReference Include="..\financeiro.infra\financeiro.infra.csproj" />
   </ItemGroup>

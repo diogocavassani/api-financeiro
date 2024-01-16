@@ -2,6 +2,8 @@
 using financeiro.dominio.Entidades;
 using financeiro.dominio.Repositorios;
 using financeiro.dominio.ViewModels;
+using financeiro.dominioNucleoCompartilhado;
+using financeiro.dominioNucleoCompartilhado.Eventos;
 using financeiro.infra.Transacao;
 
 namespace financeiro.aplicacao.App
@@ -10,7 +12,7 @@ namespace financeiro.aplicacao.App
     {
         private readonly ICartaoRepositorio _cartaoRepositorio;
 
-        public CartaoApp(UnitOfWork unitOfWork, ICartaoRepositorio cartaoRepositorio) : base(unitOfWork)
+        public CartaoApp(UnitOfWork unitOfWork, IHandle<NotificacaoEvento> notificacao, ICartaoRepositorio cartaoRepositorio) : base(unitOfWork, notificacao)
         {
             _cartaoRepositorio = cartaoRepositorio;
         }

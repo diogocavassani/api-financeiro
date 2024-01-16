@@ -1,18 +1,21 @@
-﻿using financeiro.dominio.App;
+﻿using financeiro.api.Controllers.Base;
+using financeiro.dominio.App;
 using financeiro.dominio.ViewModels;
+using financeiro.dominioNucleoCompartilhado;
+using financeiro.dominioNucleoCompartilhado.Eventos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace financeiro.api.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
-    public class ContasPagarController : ControllerBase
+    public class ContasPagarController : BaseController
     {
         private readonly IContaPagarApp _contaPagarApp;
 
-        public ContasPagarController(IContaPagarApp cartaoApp)
+        public ContasPagarController(IHandle<NotificacaoEvento> notificacao, IContaPagarApp contaPagarApp) : base(notificacao)
         {
-            _contaPagarApp = cartaoApp;
+            _contaPagarApp = contaPagarApp;
         }
 
         [HttpGet("")]
@@ -20,9 +23,6 @@ namespace financeiro.api.Controllers
         [ProducesResponseType<ResultErrorViewModel>(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> BuscarContasPagar([FromQuery] int mes, [FromQuery] int ano, [FromQuery] int? idCartao = 0)
         {
-            if (mes == 0 || ano == 0)
-                return BadRequest(new ResultErrorViewModel("Mês e ano precisam estar preenchidos"));
-
             var retorno = await _contaPagarApp.BuscarContasPagarAsync(mes, ano, idCartao);
             return Ok(retorno);
         }

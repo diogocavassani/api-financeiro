@@ -1,6 +1,9 @@
 using financeiro.aplicacao.App;
 using financeiro.dominio.App;
 using financeiro.dominio.Repositorios;
+using financeiro.dominioNucleoCompartilhado;
+using financeiro.dominioNucleoCompartilhado.Eventos;
+using financeiro.dominioNucleoCompartilhado.EventosHandlers;
 using financeiro.infra.Contexto;
 using financeiro.infra.Repositorio;
 using financeiro.infra.Transacao;
@@ -41,4 +44,5 @@ void ConfigureServices(WebApplicationBuilder builder)
     builder.Services.AddScoped<ICartaoApp, CartaoApp>();
     builder.Services.AddScoped<IContaPagarApp, ContaPagarApp>();
     builder.Services.AddScoped<UnitOfWork>();
+    builder.Services.AddScoped<IHandle<NotificacaoEvento>, NotificacaoEventoHandler>();
 }

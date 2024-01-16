@@ -2,6 +2,8 @@
 using financeiro.dominio.Entidades;
 using financeiro.dominio.Repositorios;
 using financeiro.dominio.ViewModels;
+using financeiro.dominioNucleoCompartilhado;
+using financeiro.dominioNucleoCompartilhado.Eventos;
 using financeiro.infra.Transacao;
 
 namespace financeiro.aplicacao.App
@@ -11,7 +13,7 @@ namespace financeiro.aplicacao.App
         private readonly IContaPagarRepositorio _contaPagarRepositorio;
         private readonly ICartaoRepositorio _cartaoRepositorio;
 
-        public ContaPagarApp(UnitOfWork unitOfWork, IContaPagarRepositorio contaPagarRepositorio, ICartaoRepositorio cartaoRepositorio) : base(unitOfWork)
+        public ContaPagarApp(UnitOfWork unitOfWork, IHandle<NotificacaoEvento> notificacao, IContaPagarRepositorio contaPagarRepositorio, ICartaoRepositorio cartaoRepositorio) : base(unitOfWork, notificacao)
         {
             _contaPagarRepositorio = contaPagarRepositorio;
             _cartaoRepositorio = cartaoRepositorio;
@@ -19,6 +21,12 @@ namespace financeiro.aplicacao.App
 
         public async Task<List<ContasPagarResultViewModel>> BuscarContasPagarAsync(int mes, int ano, int? idCartao)
         {
+            if (mes == 0 || ano == 0)
+            {
+                await _notificacao.Handle(new NotificacaoEvento("BuscarContasPagarAsync", "Mês e ano precisam estar preenchidos"));
+                return null;
+            }
+
             return await _contaPagarRepositorio.BuscarContasPagarAsync(mes, ano, idCartao);
         }
 

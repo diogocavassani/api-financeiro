@@ -1,7 +1,8 @@
 ﻿using financeiro.api.Controllers.Base;
-using financeiro.aplicacao.App;
 using financeiro.dominio.App;
 using financeiro.dominio.ViewModels;
+using financeiro.dominioNucleoCompartilhado;
+using financeiro.dominioNucleoCompartilhado.Eventos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace financeiro.api.Controllers
@@ -12,7 +13,7 @@ namespace financeiro.api.Controllers
     {
         private readonly ICartaoApp _cartaoApp;
 
-        public CartaoController(ICartaoApp cartaoApp)
+        public CartaoController(IHandle<NotificacaoEvento> notificacao, ICartaoApp cartaoApp) : base(notificacao)
         {
             _cartaoApp = cartaoApp;
         }
