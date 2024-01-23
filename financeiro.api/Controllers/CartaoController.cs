@@ -23,17 +23,8 @@ namespace financeiro.api.Controllers
         [ProducesResponseType<ResultErrorViewModel>(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> PersiteCartao([FromBody] CartaoInputViewModel cartaoViewModel)
         {
-            //TODO: Passar validação para camada de APP.
-            if (string.IsNullOrEmpty(cartaoViewModel.NomeCartao))
-            {
-                return BadRequest(new ResultErrorViewModel("Nome do cartão é obrigatório"));
-            }
             var cartaoResult = await _cartaoApp.PersisteCartaoAsync(cartaoViewModel);
-
-
-            return CreatedAtAction(nameof(GetPorIdCartao),
-                new { cartaoResult.idCartao },
-                cartaoResult);
+            return CreateResponse(cartaoResult, 201);
         }
 
         [HttpGet("")]
@@ -50,18 +41,9 @@ namespace financeiro.api.Controllers
         [ProducesResponseType<CartaoResultViewModel>(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetPorIdCartao([FromRoute] int idCartao)
         {
-            if (idCartao == 0)
-            {
-                return NotFound(new ResultErrorViewModel("Cartão não encontrado"));
-            }
+
             var cartaoResult = await _cartaoApp.BuscarPorIdAsync(idCartao);
-
-            if (cartaoResult == null)
-            {
-                return NotFound(new ResultErrorViewModel("Cartão não encontrado"));
-            }
-
-            return Ok(cartaoResult);
+            return CreateResponse(cartaoResult);
         }
 
         [HttpDelete("{idCartao}")]
@@ -69,11 +51,8 @@ namespace financeiro.api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> DeletarCartao([FromRoute] int idCartao)
         {
-            var flSucesso = await _cartaoApp.ExcluirCartaoAsync(idCartao);
-            if (!flSucesso)
-                return BadRequest(new ResultErrorViewModel("Cartão não encontrado"));
-
-            return NoContent();
+            await _cartaoApp.ExcluirCartaoAsync(idCartao);
+            return CreateResponse(null, 204);
         }
     }
 }

@@ -6,7 +6,7 @@ namespace financeiro.dominioNucleoCompartilhado
     {
         Task Handle(T evento);
         bool ExisteNotificacoes();
-        ICollection<NotificacaoEvento> ObterNotificacoes();
+        ICollection<string> ObterNotificacoes();
 
     }
 }

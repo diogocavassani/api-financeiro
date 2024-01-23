@@ -32,14 +32,20 @@ namespace financeiro.aplicacao.App
 
         public async Task<List<ContasPagarResultViewModel>> PersisteContaPagarAsync(ContaPagarInputViewModel contaPagarViewModel)
         {
-            //TODO:Precisa refatorar após o lançamento de notificações. Retornar sempre as contas criadas no banco. Atualmente não da pra saber se criou ou não.
+            if (contaPagarViewModel.ValorTotal == 0)
+            {
+                await _notificacao.Handle(new NotificacaoEvento("PersisteContaPagarAsync", "Valor precisa ser maior que 0"));
+                return null;
+            }
             var retorno = new List<ContasPagarResultViewModel>();
             if (contaPagarViewModel.IdCartao > 0)
             {
                 var cartao = await _cartaoRepositorio.BuscarPorIdAsync(contaPagarViewModel.IdCartao.Value);
                 if (cartao == null)
+                {
+                    await _notificacao.Handle(new NotificacaoEvento("PersisteContaPagarAsync", "Valor precisa ser maior que 0"));
                     return null;
-
+                }
                 for (var parcelaAtual = 1; parcelaAtual <= contaPagarViewModel.TotalParcelas; parcelaAtual++)
                 {
                     var contaPagar = new ContaPagar(

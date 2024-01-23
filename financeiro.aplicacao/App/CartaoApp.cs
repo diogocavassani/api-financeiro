@@ -17,30 +17,37 @@ namespace financeiro.aplicacao.App
             _cartaoRepositorio = cartaoRepositorio;
         }
 
-        public async Task<CartaoResultViewModel?> BuscarPorIdAsync(int idCartao)
+        public async Task<CartaoResultViewModel> BuscarPorIdAsync(int idCartao)
         {
+            if (idCartao == 0)
+            {
+                await _notificacao.Handle(new NotificacaoEvento("BuscarPorIdAsync", "Cartão não encontrado"));
+                return null;
+            }
             var cartao = await _cartaoRepositorio.BuscarPorIdAsync(idCartao);
 
             return cartao != null ?
                 new CartaoResultViewModel(cartao.IdCartao, cartao.NomeCartao, cartao.DiaVencimentoFatura) : null;
         }
 
-        public async Task<bool> ExcluirCartaoAsync(int idCartao)
+        public async Task ExcluirCartaoAsync(int idCartao)
         {
             if (idCartao == 0)
             {
-                return false;
+                await _notificacao.Handle(new NotificacaoEvento("BuscarPorIdAsync", "Cartão não encontrado"));
+                return;
             }
             var cartao = await _cartaoRepositorio.BuscarPorIdAsync(idCartao);
             if (cartao == null)
             {
-                return false;
+                await _notificacao.Handle(new NotificacaoEvento("BuscarPorIdAsync", "Cartão não encontrado"));
+                return;
             }
 
             cartao.Excluir();
 
             await SalvarDados();
-            return true;
+
         }
 
         public async Task<List<CartaoResultViewModel>> ObterCartoesAsync()
@@ -50,7 +57,12 @@ namespace financeiro.aplicacao.App
 
         public async Task<CartaoResultViewModel> PersisteCartaoAsync(CartaoInputViewModel cartaoViewModel)
         {
-            var cartao = new Cartao(cartaoViewModel.NomeCartao ?? "", cartaoViewModel.DiaVencimentoFatura);
+            if (string.IsNullOrEmpty(cartaoViewModel.NomeCartao))
+            {
+                await _notificacao.Handle(new NotificacaoEvento("PersisteCartaoAsync", "Nome do cartão é obrigatório"));
+                return null;
+            }
+            var cartao = new Cartao(cartaoViewModel.NomeCartao, cartaoViewModel.DiaVencimentoFatura);
             await _cartaoRepositorio.AdicionarAsync(cartao);
             await SalvarDados();
             return new CartaoResultViewModel(cartao.IdCartao, cartao.NomeCartao, cartao.DiaVencimentoFatura);

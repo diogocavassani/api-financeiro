@@ -2,9 +2,9 @@
 {
     public class ResultErrorViewModel
     {
-        public string Erros { get; private set; }
+        public ICollection<String> Erros { get; private set; }
 
-        public ResultErrorViewModel(string erros)
+        public ResultErrorViewModel(ICollection<String> erros)
         {
             Erros = erros;
         }

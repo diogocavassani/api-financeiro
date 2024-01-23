@@ -24,9 +24,9 @@ namespace financeiro.dominioNucleoCompartilhado.EventosHandlers
             return Notificacoes.Count > 0;
         }
 
-        public ICollection<NotificacaoEvento> ObterNotificacoes()
+        public ICollection<String> ObterNotificacoes()
         {
-            return Notificacoes;
+            return Notificacoes.Select(p => p.Mensagem).ToList();
         }
 
     }
