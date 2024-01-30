@@ -1,6 +1,6 @@
 ﻿using financeiro.dominio.ViewModels;
 
-namespace financeiro.dominio.App
+namespace financeiro.dominio.Interfaces.App
 {
     public interface IContaPagarApp
     {

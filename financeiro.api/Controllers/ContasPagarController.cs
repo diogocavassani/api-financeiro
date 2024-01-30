@@ -1,5 +1,5 @@
 ﻿using financeiro.api.Controllers.Base;
-using financeiro.dominio.App;
+using financeiro.dominio.Interfaces.App;
 using financeiro.dominio.ViewModels;
 using financeiro.dominioNucleoCompartilhado;
 using financeiro.dominioNucleoCompartilhado.Eventos;

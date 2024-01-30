@@ -1,6 +1,6 @@
-﻿using financeiro.dominio.App;
-using financeiro.dominio.Entidades;
-using financeiro.dominio.Repositorios;
+﻿using financeiro.dominio.Entidades;
+using financeiro.dominio.Interfaces.App;
+using financeiro.dominio.Interfaces.Repositorios;
 using financeiro.dominio.ViewModels;
 using financeiro.dominioNucleoCompartilhado;
 using financeiro.dominioNucleoCompartilhado.Eventos;

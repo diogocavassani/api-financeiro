@@ -1,6 +1,6 @@
 using financeiro.aplicacao.App;
-using financeiro.dominio.App;
-using financeiro.dominio.Repositorios;
+using financeiro.dominio.Interfaces.App;
+using financeiro.dominio.Interfaces.Repositorios;
 using financeiro.dominioNucleoCompartilhado;
 using financeiro.dominioNucleoCompartilhado.Eventos;
 using financeiro.dominioNucleoCompartilhado.EventosHandlers;

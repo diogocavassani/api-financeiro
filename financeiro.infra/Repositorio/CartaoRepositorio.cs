@@ -1,5 +1,5 @@
 ﻿using financeiro.dominio.Entidades;
-using financeiro.dominio.Repositorios;
+using financeiro.dominio.Interfaces.Repositorios;
 using financeiro.dominio.ViewModels;
 using financeiro.infra.Contexto;
 using Microsoft.EntityFrameworkCore;
