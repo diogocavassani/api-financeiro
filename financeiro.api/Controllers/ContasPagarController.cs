@@ -24,7 +24,7 @@ namespace financeiro.api.Controllers
         public async Task<IActionResult> BuscarContasPagar([FromQuery] int mes, [FromQuery] int ano, [FromQuery] int? idCartao = 0)
         {
             var retorno = await _contaPagarApp.BuscarContasPagarAsync(mes, ano, idCartao);
-            return Ok(retorno);
+            return CreateResponse(retorno);
         }
 
         [HttpPost("")]
@@ -34,7 +34,7 @@ namespace financeiro.api.Controllers
         {
 
 
-            var result = _contaPagarApp.PersisteContaPagarAsync(contaPagarViewModel);
+            var result = await _contaPagarApp.PersisteContaPagarAsync(contaPagarViewModel);
             return CreateResponse(result);
         }
     }

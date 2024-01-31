@@ -1,4 +1,6 @@
-﻿namespace financeiro.dominio.Entidades
+﻿using System.Text.Json.Serialization;
+
+namespace financeiro.dominio.Entidades
 {
     public class ContaPagar
     {
@@ -16,15 +18,15 @@
             ParcelaAtual = parcela;
         }
 
-        public ContaPagar(string descricao, decimal valorParcela, int totalParcelas, int parcelaAtual, DateTime dataLancamento, int mes, int ano, Cartao cartao)
+        public ContaPagar(string descricao, decimal valorParcela, int totalParcelas, int parcelaAtual, DateTime dataLancamento, DateTime dataVencimento, Cartao cartao)
         {
             Descricao = descricao;
             Valor = valorParcela;
             TotalParcela = totalParcelas;
             ParcelaAtual = parcelaAtual;
             DataLancamento = dataLancamento;
-            DataVencimento = new DateTime(ano, mes, cartao.DiaVencimentoFatura);
-            cartao = cartao;
+            DataVencimento = dataVencimento;
+            Cartao = cartao;
         }
 
         public int IdContaPagar { get; private set; }
@@ -36,6 +38,7 @@
         public DateTime DataVencimento { get; private set; }
         public bool FlCancelado { get; private set; }
         public int? IdCartao { get; private set; }
+        [JsonIgnore]
         public virtual Cartao Cartao { get; set; }
     }
 }

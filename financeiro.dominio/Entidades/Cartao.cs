@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using financeiro.dominio.ViewModels;
+using System.Collections.ObjectModel;
 
 namespace financeiro.dominio.Entidades;
 
@@ -35,14 +36,23 @@ public class Cartao
         FlExcluido = true;
     }
 
-    public void LancarContaPagar(string descricao, decimal valorTotal, int totalParcelas, DateTime dataLancamento, DateTime dataVencimento)
+    public List<ContasPagarResultViewModel> LancarContaPagar(string descricao, decimal valorParcela, int totalParcelas, DateTime dataLancamento)
     {
-        var valorParcela = Math.Round(valorTotal / totalParcelas, 2);
-        for (int parcela = 0; parcela < totalParcelas; parcela++)
+        var retorno = new List<ContasPagarResultViewModel>();
+        for (int parcela = 1; parcela <= totalParcelas; parcela++)
         {
-            var contaPagar = new ContaPagar(descricao, valorParcela, totalParcelas, parcela + 1, dataLancamento, new DateTime(dataVencimento.Year, dataVencimento.AddMonths(parcela + 1).Month, DiaVencimentoFatura));
-
+            var contaPagar = new ContaPagar(
+                descricao,
+                valorParcela,
+                totalParcelas,
+                parcela,
+                dataLancamento,
+                new DateTime(dataLancamento.AddMonths(parcela).Year, dataLancamento.AddMonths(parcela).Month, DiaVencimentoFatura),
+                this);
             ContasPagar.Add(contaPagar);
+            retorno.Add(new ContasPagarResultViewModel(contaPagar.Descricao,
+                contaPagar.TotalParcela, contaPagar.Valor, contaPagar.Cartao.IdCartao, contaPagar.DataVencimento, contaPagar.DataLancamento));
         }
+        return retorno;
     }
 }

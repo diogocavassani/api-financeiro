@@ -1,4 +1,6 @@
-﻿namespace financeiro.dominio.ViewModels
+﻿using financeiro.dominio.Enum;
+
+namespace financeiro.dominio.ViewModels
 {
     public class ContaPagarInputViewModel
     {
@@ -9,5 +11,8 @@
         public DateTime DataVencimento { get; set; }
         public DateTime DataLancamento { get; set; }
         public decimal ValorParcela => TotalParcelas > 0 ? ValorTotal / TotalParcelas : ValorTotal;
+        public ETipoPagamento TipoPagamento => IdCartao.GetValueOrDefault(0) > 0 ? ETipoPagamento.Cartao : 
+            TotalParcelas > 1 ? ETipoPagamento.Carne : 
+            ETipoPagamento.Pix;
     }
 }

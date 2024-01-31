@@ -1,4 +1,5 @@
 ﻿using financeiro.dominio.Entidades;
+using financeiro.dominio.Enum;
 using financeiro.dominio.Interfaces.App;
 using financeiro.dominio.Interfaces.Repositorios;
 using financeiro.dominio.ViewModels;
@@ -37,40 +38,40 @@ namespace financeiro.aplicacao.App
                 await _notificacao.Handle(new NotificacaoEvento("PersisteContaPagarAsync", "Valor precisa ser maior que 0"));
                 return null;
             }
-            var retorno = new List<ContasPagarResultViewModel>();
-            if (contaPagarViewModel.IdCartao > 0)
-            {
-                var cartao = await _cartaoRepositorio.BuscarPorIdAsync(contaPagarViewModel.IdCartao.Value);
-                if (cartao == null)
-                {
-                    await _notificacao.Handle(new NotificacaoEvento("PersisteContaPagarAsync", "Valor precisa ser maior que 0"));
-                    return null;
-                }
-                for (var parcelaAtual = 1; parcelaAtual <= contaPagarViewModel.TotalParcelas; parcelaAtual++)
-                {
-                    var contaPagar = new ContaPagar(
-                        contaPagarViewModel.Descricao,
-                        contaPagarViewModel.ValorParcela,
-                        contaPagarViewModel.TotalParcelas,
-                        parcelaAtual,
-                        contaPagarViewModel.DataLancamento,
-                        contaPagarViewModel.DataVencimento.AddMonths(parcelaAtual).Month,
-                        contaPagarViewModel.DataVencimento.Year,
-                        cartao);
-                    await _contaPagarRepositorio.AdicionarAsync(contaPagar);
-                    retorno.Add(new ContasPagarResultViewModel(contaPagar.Descricao, contaPagar.TotalParcela, contaPagar.Valor, contaPagar.Cartao.IdCartao, contaPagar.DataVencimento, contaPagar.DataLancamento));
-                }
-            }
-            else
-            {
-                for (int parcela = 1; parcela <= contaPagarViewModel.TotalParcelas; parcela++)
-                {
-                    var contaPagar = new ContaPagar(contaPagarViewModel.Descricao, contaPagarViewModel.ValorParcela, parcela, contaPagarViewModel.TotalParcelas, contaPagarViewModel.DataLancamento, contaPagarViewModel.DataVencimento.AddMonths(parcela));
-                    await _contaPagarRepositorio.AdicionarAsync(contaPagar);
-                    retorno.Add(new ContasPagarResultViewModel(contaPagar.Descricao, contaPagar.TotalParcela, contaPagar.Valor, contaPagar.Cartao.IdCartao, contaPagar.DataVencimento, contaPagar.DataLancamento));
-                }
-            }
 
+            var retorno = new List<ContasPagarResultViewModel>();
+            switch (contaPagarViewModel.TipoPagamento)
+            {
+                case ETipoPagamento.Cartao:
+                    var cartao = await _cartaoRepositorio.BuscarPorIdAsync(contaPagarViewModel.IdCartao.Value);
+                    if (cartao == null)
+                    {
+                        await _notificacao.Handle(new NotificacaoEvento("PersisteContaPagarAsync", "Cartão não existe"));
+                        return null;
+                    }
+                    retorno = cartao.LancarContaPagar(contaPagarViewModel.Descricao, contaPagarViewModel.ValorParcela, contaPagarViewModel.TotalParcelas, contaPagarViewModel.DataLancamento);
+                    break;
+                case ETipoPagamento.Dinheiro:
+                    break;
+                case ETipoPagamento.Pix:
+                    break;
+                case ETipoPagamento.Carne:
+                    for (int parcela = 1; parcela <= contaPagarViewModel.TotalParcelas; parcela++)
+                    {
+                        var contaPagar = new ContaPagar(
+                            contaPagarViewModel.Descricao,
+                            contaPagarViewModel.ValorParcela,
+                            parcela,
+                            contaPagarViewModel.TotalParcelas,
+                            contaPagarViewModel.DataLancamento,
+                            contaPagarViewModel.DataVencimento.AddMonths(parcela));
+                        await _contaPagarRepositorio.AdicionarAsync(contaPagar);
+                        retorno.Add(new ContasPagarResultViewModel(contaPagar.Descricao, contaPagar.TotalParcela, contaPagar.Valor, null, contaPagar.DataVencimento, contaPagar.DataLancamento));
+                    }
+                    break;
+                default:
+                    break;
+            }
 
             if (await SalvarDados())
             {
