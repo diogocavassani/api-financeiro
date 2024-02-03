@@ -7,7 +7,7 @@ public class Cartao
 {
     protected Cartao()
     {
-        ContasPagar = new Collection<ContaPagar>();
+        ContasPagar = new List<ContaPagar>();
     }
 
 
@@ -18,7 +18,7 @@ public class Cartao
     /// <param name="vencimentoFatura"></param>
     public Cartao(string nomeCartao, int diaVencimentoFatura)
     {
-        ContasPagar = new Collection<ContaPagar>();
+        ContasPagar = new List<ContaPagar>();
 
         NomeCartao = nomeCartao;
         DiaVencimentoFatura = diaVencimentoFatura;
@@ -29,16 +29,16 @@ public class Cartao
     public string NomeCartao { get; private set; }
     public int DiaVencimentoFatura { get; private set; } = 1;
     public bool FlExcluido { get; private set; }
-    public virtual ICollection<ContaPagar> ContasPagar { get; set; }
+    public virtual List<ContaPagar> ContasPagar { get; set; }
 
     public void Excluir()
     {
         FlExcluido = true;
     }
 
-    public List<ContasPagarResultViewModel> LancarContaPagar(string descricao, decimal valorParcela, int totalParcelas, DateTime dataLancamento)
+    public List<ContaPagar> LancarContaPagar(string descricao, decimal valorParcela, int totalParcelas, DateTime dataLancamento)
     {
-        var retorno = new List<ContasPagarResultViewModel>();
+        var retorno = new List<ContaPagar>();
         for (int parcela = 1; parcela <= totalParcelas; parcela++)
         {
             var contaPagar = new ContaPagar(
@@ -49,10 +49,9 @@ public class Cartao
                 dataLancamento,
                 new DateTime(dataLancamento.AddMonths(parcela).Year, dataLancamento.AddMonths(parcela).Month, DiaVencimentoFatura),
                 this);
-            ContasPagar.Add(contaPagar);
-            retorno.Add(new ContasPagarResultViewModel(contaPagar.Descricao,
-                contaPagar.TotalParcela, contaPagar.Valor, contaPagar.Cartao.IdCartao, contaPagar.DataVencimento, contaPagar.DataLancamento));
+            retorno.Add(contaPagar);
         }
+        ContasPagar.AddRange(retorno);
         return retorno;
     }
 }

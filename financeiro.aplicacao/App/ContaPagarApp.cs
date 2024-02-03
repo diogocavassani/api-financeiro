@@ -44,12 +44,13 @@ namespace financeiro.aplicacao.App
             {
                 case ETipoPagamento.Cartao:
                     var cartao = await _cartaoRepositorio.BuscarPorIdAsync(contaPagarViewModel.IdCartao.Value);
-                    if (cartao == null)
+                    if (cartao is null)
                     {
                         await _notificacao.Handle(new NotificacaoEvento("PersisteContaPagarAsync", "Cartão não existe"));
                         return null;
                     }
-                    retorno = cartao.LancarContaPagar(contaPagarViewModel.Descricao, contaPagarViewModel.ValorParcela, contaPagarViewModel.TotalParcelas, contaPagarViewModel.DataLancamento);
+                    var contasPagar = cartao.LancarContaPagar(contaPagarViewModel.Descricao, contaPagarViewModel.ValorParcela, contaPagarViewModel.TotalParcelas, contaPagarViewModel.DataLancamento);
+                    retorno.AddRange(contasPagar.Select(p => new ContasPagarResultViewModel(p.Descricao, p.TotalParcela, p.Valor, p.IdCartao, p.DataVencimento, p.DataLancamento)).ToList());
                     break;
                 case ETipoPagamento.Dinheiro:
                     break;
@@ -73,11 +74,11 @@ namespace financeiro.aplicacao.App
                     break;
             }
 
-            if (await SalvarDados())
-            {
-                return retorno;
-            }
-            return null;
+            await SalvarDados();
+
+            return retorno;
+            
+
         }
     }
 }

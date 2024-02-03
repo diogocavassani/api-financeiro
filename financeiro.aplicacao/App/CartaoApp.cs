@@ -26,7 +26,7 @@ namespace financeiro.aplicacao.App
             }
             var cartao = await _cartaoRepositorio.BuscarPorIdAsync(idCartao);
 
-            return cartao != null ?
+            return cartao is not null ?
                 new CartaoResultViewModel(cartao.IdCartao, cartao.NomeCartao, cartao.DiaVencimentoFatura) : null;
         }
 
@@ -38,7 +38,7 @@ namespace financeiro.aplicacao.App
                 return;
             }
             var cartao = await _cartaoRepositorio.BuscarPorIdAsync(idCartao);
-            if (cartao == null)
+            if (cartao is null)
             {
                 await _notificacao.Handle(new NotificacaoEvento("BuscarPorIdAsync", "Cartão não encontrado"));
                 return;
