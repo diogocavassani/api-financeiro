@@ -1,13 +1,4 @@
-using financeiro.aplicacao.App;
-using financeiro.dominio.Interfaces.App;
-using financeiro.dominio.Interfaces.Repositorios;
-using financeiro.dominioNucleoCompartilhado;
-using financeiro.dominioNucleoCompartilhado.Eventos;
-using financeiro.dominioNucleoCompartilhado.EventosHandlers;
-using financeiro.infra.Contexto;
-using financeiro.infra.Repositorio;
-using financeiro.infra.Transacao;
-using Microsoft.EntityFrameworkCore;
+using financeiro.infra.crossCutting.InjecaoDependencia;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,13 +27,8 @@ void ConfigureServices(WebApplicationBuilder builder)
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
-    builder.Services.AddDbContext<DataContext>(
-        options =>
-            options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
-    builder.Services.AddScoped<ICartaoRepositorio, CartaoRepositorio>();
-    builder.Services.AddScoped<IContaPagarRepositorio, ContaPagarRepositorio>();
-    builder.Services.AddScoped<ICartaoApp, CartaoApp>();
-    builder.Services.AddScoped<IContaPagarApp, ContaPagarApp>();
-    builder.Services.AddScoped<UnitOfWork>();
-    builder.Services.AddScoped<IHandle<NotificacaoEvento>, NotificacaoEventoHandler>();
+
+    builder.Services.AddComumDependencia(builder.Configuration);
+    builder.Services.AddCartaoDependencia();
+    builder.Services.AddContaPagarDependencia();
 }

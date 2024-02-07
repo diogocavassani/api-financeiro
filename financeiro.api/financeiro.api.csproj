@@ -24,6 +24,7 @@
   <ItemGroup>
     <ProjectReference Include="..\financeiro.aplicacao\financeiro.aplicacao.csproj" />
     <ProjectReference Include="..\financeiro.dominioNucleoCompartilhado\financeiro.dominioNucleoCompartilhado.csproj" />
+    <ProjectReference Include="..\financeiro.infra.crossCutting\financeiro.infra.crossCutting.csproj" />
   </ItemGroup>
 
 </Project>

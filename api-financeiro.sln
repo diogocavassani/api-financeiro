@@ -25,6 +25,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5-Testes", "5-Testes", "{B0
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "financeiro.teste", "financeiro.teste\financeiro.teste.csproj", "{DE53DA7E-EE17-454F-A9DC-9A5A578B1BC8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "financeiro.infra.crossCutting", "financeiro.infra.crossCutting\financeiro.infra.crossCutting.csproj", "{FD403F18-0214-4498-83E1-57AB4ABDB691}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
