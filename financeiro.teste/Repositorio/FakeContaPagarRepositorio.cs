@@ -11,8 +11,9 @@ namespace financeiro.infra.Repositorio
 
         public FakeContaPagarRepositorio()
         {
+            var contaPagarId = 0;
             _contasPagar = new Faker<ContaPagar>("pt-BR").StrictMode(false)
-                .RuleFor(p => p.IdContaPagar, f => f.IndexFaker)
+                .RuleFor(p => p.IdContaPagar, f => contaPagarId++)
                 .RuleFor(p => p.ParcelaAtual, f => f.Random.Number())
                 .RuleFor(p => p.TotalParcela, f => f.Random.Number())
                 .RuleFor(p => p.Descricao, f => f.Random.Words(2))

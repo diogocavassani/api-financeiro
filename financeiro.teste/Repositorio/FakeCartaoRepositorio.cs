@@ -13,7 +13,7 @@ namespace financeiro.infra.Repositorio
         {
             var cartaoId = 0;
             _cartoes = new Faker<Cartao>("pt_BR").StrictMode(false)
-                .RuleFor(p => p.IdCartao, f => f.IndexFaker)
+                .RuleFor(p => p.IdCartao, f => cartaoId++)
                 .RuleFor(p => p.DiaVencimentoFatura, f => f.Random.Number(1, 30))
                 .RuleFor(p => p.NomeCartao, f => f.Finance.AccountName())
                 .RuleFor(p => p.FlExcluido, f => f.Random.Bool()).Generate(100);

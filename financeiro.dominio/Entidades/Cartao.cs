@@ -5,7 +5,7 @@ namespace financeiro.dominio.Entidades;
 
 public class Cartao
 {
-    protected Cartao()
+    public Cartao()
     {
         ContasPagar = new List<ContaPagar>();
     }

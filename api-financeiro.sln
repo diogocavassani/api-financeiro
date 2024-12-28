@@ -23,7 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "financeiro.dominioNucleoCom
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5-Testes", "5-Testes", "{B081F817-D28A-4162-82D2-E10865AE0222}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "financeiro.teste", "financeiro.teste\financeiro.teste.csproj", "{DE53DA7E-EE17-454F-A9DC-9A5A578B1BC8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "financeiro.teste", "financeiro.teste\financeiro.teste.csproj", "{DE53DA7E-EE17-454F-A9DC-9A5A578B1BC8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "financeiro.infra.crossCutting", "financeiro.infra.crossCutting\financeiro.infra.crossCutting.csproj", "{FD403F18-0214-4498-83E1-57AB4ABDB691}"
 EndProject
@@ -57,6 +57,10 @@ Global
 		{DE53DA7E-EE17-454F-A9DC-9A5A578B1BC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE53DA7E-EE17-454F-A9DC-9A5A578B1BC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE53DA7E-EE17-454F-A9DC-9A5A578B1BC8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD403F18-0214-4498-83E1-57AB4ABDB691}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD403F18-0214-4498-83E1-57AB4ABDB691}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD403F18-0214-4498-83E1-57AB4ABDB691}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD403F18-0214-4498-83E1-57AB4ABDB691}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -68,6 +72,7 @@ Global
 		{E099CE3C-AF2A-4F8D-B03F-C10C7ADD2C64} = {51CF2E98-A75E-4E59-A666-AE38E0819163}
 		{0220D6F4-E8A7-4BFC-AFA1-1D11AE5ADB44} = {459BE6B4-9077-42E9-82BC-EB483FEA2E53}
 		{DE53DA7E-EE17-454F-A9DC-9A5A578B1BC8} = {B081F817-D28A-4162-82D2-E10865AE0222}
+		{FD403F18-0214-4498-83E1-57AB4ABDB691} = {51CF2E98-A75E-4E59-A666-AE38E0819163}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E3CD83E7-DAC9-40BF-AFBF-FA639984616F}
