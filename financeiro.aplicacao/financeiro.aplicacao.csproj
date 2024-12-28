@@ -1,15 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\financeiro.dominioNucleoCompartilhado\financeiro.dominioNucleoCompartilhado.csproj" />
-    <ProjectReference Include="..\financeiro.dominio\financeiro.dominio.csproj" />
-    <ProjectReference Include="..\financeiro.infra\financeiro.infra.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\financeiro.dominioNucleoCompartilhado\financeiro.dominioNucleoCompartilhado.csproj" />
+		<ProjectReference Include="..\financeiro.dominio\financeiro.dominio.csproj" />
+		<ProjectReference Include="..\financeiro.infra\financeiro.infra.csproj" />
+	</ItemGroup>
 
 </Project>
