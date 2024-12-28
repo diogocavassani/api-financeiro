@@ -1,5 +1,4 @@
-﻿using financeiro.dominio.ViewModels;
-using System.Collections.ObjectModel;
+﻿using financeiro.dominio.Entidades.ContasPagar;
 
 namespace financeiro.dominio.Entidades;
 
@@ -7,7 +6,7 @@ public class Cartao
 {
     public Cartao()
     {
-        ContasPagar = new List<ContaPagar>();
+        ContasPagar = new List<ContaPagarCartao>();
     }
 
 
@@ -18,7 +17,7 @@ public class Cartao
     /// <param name="vencimentoFatura"></param>
     public Cartao(string nomeCartao, int diaVencimentoFatura)
     {
-        ContasPagar = new List<ContaPagar>();
+        ContasPagar = new List<ContaPagarCartao>();
 
         NomeCartao = nomeCartao;
         DiaVencimentoFatura = diaVencimentoFatura;
@@ -29,19 +28,19 @@ public class Cartao
     public string NomeCartao { get; private set; }
     public int DiaVencimentoFatura { get; private set; } = 1;
     public bool FlExcluido { get; private set; }
-    public virtual List<ContaPagar> ContasPagar { get; set; }
+    public virtual List<ContaPagarCartao> ContasPagar { get; set; }
 
     public void Excluir()
     {
         FlExcluido = true;
     }
 
-    public List<ContaPagar> LancarContaPagar(string descricao, decimal valorParcela, int totalParcelas, DateTime dataLancamento)
+    public List<ContaPagarCartao> LancarContaPagar(string descricao, decimal valorParcela, int totalParcelas, DateTime dataLancamento)
     {
-        var retorno = new List<ContaPagar>();
+        var retorno = new List<ContaPagarCartao>();
         for (int parcela = 1; parcela <= totalParcelas; parcela++)
         {
-            var contaPagar = new ContaPagar(
+            var contaPagar = new ContaPagarCartao(
                 descricao,
                 valorParcela,
                 totalParcelas,

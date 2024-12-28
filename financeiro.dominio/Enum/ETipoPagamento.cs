@@ -2,6 +2,7 @@
 {
     public enum ETipoPagamento
     {
+        NaoDefinido,
         Cartao,
         Dinheiro,
         Pix,

@@ -1,4 +1,5 @@
 ﻿using financeiro.dominio.Entidades;
+using financeiro.dominio.Entidades.ContasPagar;
 using financeiro.dominio.Interfaces.Repositorios;
 using financeiro.dominio.ViewModels;
 using financeiro.infra.Contexto;
@@ -27,9 +28,9 @@ namespace financeiro.infra.Repositorio
                 .Where(p => p.FlCancelado == false);
 
             if (cartao != null && cartao > 0)
-                query = query.Where(p => p.IdCartao == cartao);
+                query = query.OfType<ContaPagarCartao>().Where(p => p.IdCartao == cartao);
 
-            return query.Select(p =>
+            return query.OfType<ContaPagarCartao>().Select(p =>
             new ContasPagarResultViewModel(
                 p.Descricao,
                 p.TotalParcela,

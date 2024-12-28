@@ -1,5 +1,6 @@
 ﻿using Bogus;
 using financeiro.dominio.Entidades;
+using financeiro.dominio.Entidades.ContasPagar;
 using financeiro.dominio.Interfaces.Repositorios;
 using financeiro.dominio.ViewModels;
 
@@ -7,12 +8,12 @@ namespace financeiro.infra.Repositorio
 {
     public class FakeContaPagarRepositorio : IContaPagarRepositorio
     {
-        private readonly IList<ContaPagar> _contasPagar;
+        private readonly IList<ContaPagarCartao> _contasPagarCartao;
 
         public FakeContaPagarRepositorio()
         {
             var contaPagarId = 0;
-            _contasPagar = new Faker<ContaPagar>("pt-BR").StrictMode(false)
+            _contasPagarCartao = new Faker<ContaPagarCartao>("pt-BR").StrictMode(false)
                 .RuleFor(p => p.IdContaPagar, f => contaPagarId++)
                 .RuleFor(p => p.ParcelaAtual, f => f.Random.Number())
                 .RuleFor(p => p.TotalParcela, f => f.Random.Number())
@@ -27,12 +28,12 @@ namespace financeiro.infra.Repositorio
 
         public async Task AdicionarAsync(ContaPagar contaPagar)
         {
-            
+
         }
 
         public async Task<List<ContasPagarResultViewModel>> BuscarContasPagarAsync(int mes, int ano, int? cartao)
         {
-            var query = _contasPagar
+            var query = _contasPagarCartao
                 .Where(p => p.DataVencimento.Month == mes && p.DataVencimento.Year == ano && p.FlCancelado == false).AsQueryable();
 
             if (cartao is not null && cartao > 0)

@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+﻿using financeiro.dominio.Enum;
 
 namespace financeiro.dominio.Entidades
 {
@@ -18,27 +18,17 @@ namespace financeiro.dominio.Entidades
             ParcelaAtual = parcela;
         }
 
-        public ContaPagar(string descricao, decimal valorParcela, int totalParcelas, int parcelaAtual, DateTime dataLancamento, DateTime dataVencimento, Cartao cartao)
-        {
-            Descricao = descricao;
-            Valor = valorParcela;
-            TotalParcela = totalParcelas;
-            ParcelaAtual = parcelaAtual;
-            DataLancamento = dataLancamento;
-            DataVencimento = dataVencimento;
-            Cartao = cartao;
-        }
 
-        public int IdContaPagar { get; private set; }
-        public int ParcelaAtual { get; private set; } = 1;
-        public int TotalParcela { get; private set; } = 1;
-        public string Descricao { get; private set; }
-        public decimal Valor { get; private set; }
-        public DateTime DataLancamento { get; private set; }
-        public DateTime DataVencimento { get; private set; }
-        public bool FlCancelado { get; private set; }
-        public int? IdCartao { get; private set; }
-        [JsonIgnore]
-        public virtual Cartao Cartao { get; set; }
+
+        public int IdContaPagar { get; protected set; }
+        public ETipoPagamento TipoContaPagar { get; protected set; }
+        public int ParcelaAtual { get; protected set; } = 1;
+        public int TotalParcela { get; protected set; } = 1;
+        public string Descricao { get; protected set; }
+        public decimal Valor { get; protected set; }
+        public DateTime DataLancamento { get; protected set; }
+        public DateTime DataVencimento { get; protected set; }
+        public bool FlCancelado { get; protected set; }
+
     }
 }
