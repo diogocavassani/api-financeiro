@@ -2,23 +2,8 @@
 
 namespace financeiro.dominio.Entidades
 {
-    public class ContaPagar
+    public abstract class ContaPagar
     {
-        protected ContaPagar()
-        {
-
-        }
-        public ContaPagar(string descricao, decimal valorTotal, int totalParcelas, int parcela, DateTime dataLancamento, DateTime dataVencimento)
-        {
-            Descricao = descricao;
-            Valor = valorTotal;
-            DataLancamento = dataLancamento;
-            DataVencimento = dataVencimento;
-            TotalParcela = totalParcelas;
-            ParcelaAtual = parcela;
-        }
-
-
 
         public int IdContaPagar { get; protected set; }
         public ETipoPagamento TipoContaPagar { get; protected set; }

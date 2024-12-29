@@ -5,7 +5,6 @@
         NaoDefinido,
         Cartao,
         Dinheiro,
-        Pix,
-        Carne
+        Pix
     }
 }

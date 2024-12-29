@@ -56,20 +56,6 @@ namespace financeiro.aplicacao.App
                     break;
                 case ETipoPagamento.Pix:
                     break;
-                case ETipoPagamento.Carne:
-                    for (int parcela = 1; parcela <= contaPagarViewModel.TotalParcelas; parcela++)
-                    {
-                        var contaPagar = new ContaPagar(
-                            contaPagarViewModel.Descricao,
-                            contaPagarViewModel.ValorParcela,
-                            parcela,
-                            contaPagarViewModel.TotalParcelas,
-                            contaPagarViewModel.DataLancamento,
-                            contaPagarViewModel.DataVencimento.AddMonths(parcela));
-                        await _contaPagarRepositorio.AdicionarAsync(contaPagar);
-                        retorno.Add(new ContasPagarResultViewModel(contaPagar.Descricao, contaPagar.TotalParcela, contaPagar.Valor, null, contaPagar.DataVencimento, contaPagar.DataLancamento));
-                    }
-                    break;
                 default:
                     break;
             }
