@@ -12,15 +12,15 @@ using financeiro.infra.Contexto;
 namespace financeiro.infra.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240118000209_CriacaoBd")]
-    partial class CriacaoBd
+    [Migration("20241228201847_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.0")
+                .HasAnnotation("ProductVersion", "9.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -84,15 +84,14 @@ namespace financeiro.infra.Migrations
                         .HasDefaultValue(false)
                         .HasColumnName("FlCancelado");
 
-                    b.Property<int?>("IdCartao")
-                        .HasColumnType("INT")
-                        .HasColumnName("IdCartao");
-
                     b.Property<int>("ParcelaAtual")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INT")
                         .HasDefaultValue(1)
                         .HasColumnName("ParcelaAtual");
+
+                    b.Property<int>("TipoContaPagar")
+                        .HasColumnType("int");
 
                     b.Property<int>("TotalParcela")
                         .ValueGeneratedOnAdd()
@@ -106,17 +105,33 @@ namespace financeiro.infra.Migrations
 
                     b.HasKey("IdContaPagar");
 
-                    b.HasIndex("IdCartao");
-
                     b.ToTable("ContaPagar", (string)null);
+
+                    b.HasDiscriminator<int>("TipoContaPagar").HasValue(0);
+
+                    b.UseTphMappingStrategy();
                 });
 
-            modelBuilder.Entity("financeiro.dominio.Entidades.ContaPagar", b =>
+            modelBuilder.Entity("financeiro.dominio.Entidades.ContasPagar.ContaPagarCartao", b =>
+                {
+                    b.HasBaseType("financeiro.dominio.Entidades.ContaPagar");
+
+                    b.Property<int>("IdCartao")
+                        .HasColumnType("INT")
+                        .HasColumnName("IdCartao");
+
+                    b.HasIndex("IdCartao");
+
+                    b.HasDiscriminator().HasValue(1);
+                });
+
+            modelBuilder.Entity("financeiro.dominio.Entidades.ContasPagar.ContaPagarCartao", b =>
                 {
                     b.HasOne("financeiro.dominio.Entidades.Cartao", "Cartao")
                         .WithMany("ContasPagar")
                         .HasForeignKey("IdCartao")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.Navigation("Cartao");
                 });

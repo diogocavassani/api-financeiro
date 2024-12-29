@@ -62,7 +62,7 @@ namespace financeiro.aplicacao.App
                 await _notificacao.Handle(new NotificacaoEvento("PersisteCartaoAsync", "Nome do cartão é obrigatório"));
                 return null;
             }
-            if(cartaoViewModel.DiaVencimentoFatura >= 1 && cartaoViewModel.DiaVencimentoFatura <= 30)
+            if(cartaoViewModel.DiaVencimentoFatura < 1 && cartaoViewModel.DiaVencimentoFatura > 30)
             {
                 await _notificacao.Handle(new NotificacaoEvento("PersisteCartaoAsync", "Dia do vencimento inválido"));
                 return null;

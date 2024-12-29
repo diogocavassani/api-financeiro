@@ -14,13 +14,13 @@ namespace financeiro.infra.Mapeamento
             builder.HasKey(p => p.IdContaPagar);
 
             //Configuração do discriminator
-            builder.HasDiscriminator(p => p.TipoContaPagar);
+            builder.HasDiscriminator(p => p.TipoContaPagar)
+                .HasValue<ContaPagarCartao>(dominio.Enum.ETipoPagamento.Cartao)
+                .HasValue<ContaPagar>(dominio.Enum.ETipoPagamento.NaoDefinido);
 
             builder.Property(p => p.ParcelaAtual)
                 .HasColumnName("TipoContaPagar")
-                .IsRequired()
-                .HasColumnType("INT")
-                .HasDefaultValue(0);
+                .HasColumnType("INT");
 
             builder.Property(p => p.IdContaPagar)
                 .ValueGeneratedOnAdd()

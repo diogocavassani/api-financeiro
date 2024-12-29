@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using financeiro.dominio.Enum;
+using System.Text.Json.Serialization;
 
 namespace financeiro.dominio.Entidades.ContasPagar
 {
@@ -6,7 +7,7 @@ namespace financeiro.dominio.Entidades.ContasPagar
     {
         protected ContaPagarCartao()
         {
-            
+            TipoContaPagar = ETipoPagamento.Cartao;
         }
         public ContaPagarCartao(string descricao, decimal valorParcela, int totalParcelas, int parcelaAtual, DateTime dataLancamento, DateTime dataVencimento, Cartao cartao)
         {
@@ -17,6 +18,8 @@ namespace financeiro.dominio.Entidades.ContasPagar
             DataLancamento = dataLancamento;
             DataVencimento = dataVencimento;
             Cartao = cartao;
+            TipoContaPagar = ETipoPagamento.Cartao;
+
         }
         public int IdCartao { get; private set; }
         [JsonIgnore]

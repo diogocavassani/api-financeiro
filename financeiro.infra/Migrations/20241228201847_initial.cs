@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace financeiro.infra.Migrations
 {
     /// <inheritdoc />
-    public partial class CriacaoBd : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -32,6 +32,7 @@ namespace financeiro.infra.Migrations
                 {
                     IdContaPagar = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    TipoContaPagar = table.Column<int>(type: "int", nullable: false),
                     ParcelaAtual = table.Column<int>(type: "INT", nullable: false, defaultValue: 1),
                     TotalParcela = table.Column<int>(type: "INT", nullable: false, defaultValue: 1),
                     Descricao = table.Column<string>(type: "VARCHAR(50)", nullable: false),

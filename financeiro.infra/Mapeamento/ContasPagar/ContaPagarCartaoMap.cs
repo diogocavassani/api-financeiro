@@ -1,4 +1,5 @@
-﻿using financeiro.dominio.Entidades.ContasPagar;
+﻿using financeiro.dominio.Entidades;
+using financeiro.dominio.Entidades.ContasPagar;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,6 +13,7 @@ namespace financeiro.infra.Mapeamento.ContasPagar
                 .HasColumnName("IdCartao")
                 .HasColumnType("INT");
 
+            builder.HasBaseType<ContaPagar>();
 
             builder.HasOne(p => p.Cartao)
                 .WithMany(p => p.ContasPagar)

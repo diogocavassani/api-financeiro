@@ -11,7 +11,7 @@ namespace financeiro.dominio.ViewModels
         public DateTime DataVencimento { get; set; }
         public DateTime DataLancamento { get; set; }
         public decimal ValorParcela => TotalParcelas > 0 ? ValorTotal / TotalParcelas : ValorTotal;
-        public ETipoPagamento TipoPagamento => IdCartao is null ? ETipoPagamento.Cartao : 
+        public ETipoPagamento TipoPagamento => IdCartao is not null ? ETipoPagamento.Cartao : 
             TotalParcelas > 1 ? ETipoPagamento.Carne : 
             ETipoPagamento.Pix;
     }
