@@ -30,12 +30,12 @@ namespace financeiro.infra.Repositorio
             if (cartao != null && cartao > 0)
                 query = query.OfType<ContaPagarCartao>().Where(p => p.IdCartao == cartao);
 
-            return query.OfType<ContaPagarCartao>().Select(p =>
+            return query.Select(p =>
             new ContasPagarResultViewModel(
                 p.Descricao,
                 p.TotalParcela,
                 p.Valor,
-                p.IdCartao,
+                p is ContaPagarCartao ? ((ContaPagarCartao)p).IdCartao : null,
                 p.DataVencimento,
                 p.DataLancamento
                 )).ToListAsync();
